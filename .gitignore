@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Generated experiments and large data
+data/raw/
+data/processed/
+experiments/outputs/
+reports/build/
+*.log
+
+# OS/editor files
+.DS_Store
+.vscode/
