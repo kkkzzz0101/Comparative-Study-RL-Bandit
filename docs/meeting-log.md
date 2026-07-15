@@ -24,7 +24,7 @@ Record short notes after every supervisor or team meeting. Keep decisions here e
 
 ## 2026-07-15 — Workspace setup
 
-**Attendees:** Team  
+**Attendees:** Team
 **Purpose:** Create a shared local record based on the project brief.
 
 ### Decisions
@@ -38,3 +38,23 @@ Record short notes after every supervisor or team meeting. Keep decisions here e
 | --- | --- | --- | --- |
 | T01 | Confirm scope and assessment expectations | Member A | TBD |
 | T02 | Start literature scan | Member B | TBD |
+
+## 2026-07-15 — Sprint 1 kickoff draft
+
+**Attendees:** Team
+**Purpose:** Convert the initial idea into a two-week executable evaluation sprint.
+
+### Decisions
+
+- First evaluate fixed UCB1, Thompson Sampling, Discounted UCB, Sliding-Window UCB, and EXP3 policies.
+- Treat algorithm/environment matches as hypotheses to test, not conclusions.
+- Use synthetic Bernoulli potential outcomes for controlled comparisons.
+- Preserve a later practical recommendation case study and dynamic policy router as Phase 2.
+
+### Actions
+
+| ID | Action | Owner | Due date |
+| --- | --- | --- | --- |
+| T10 | Review protocol with team/supervisor | Member A | 2026-07-16 |
+| T11 | Implement UCB1 from the shared interface | Member B | 2026-07-17 |
+| T13 | Implement Discounted UCB from the shared interface | Member A | 2026-07-17 |

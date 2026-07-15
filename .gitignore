@@ -8,6 +8,7 @@ __pycache__/
 htmlcov/
 .venv/
 venv/
+*.egg-info/
 
 # Jupyter
 .ipynb_checkpoints/
@@ -22,6 +23,7 @@ data/raw/
 data/processed/
 experiments/outputs/
 reports/build/
+results/*/
 *.log
 
 # OS/editor files

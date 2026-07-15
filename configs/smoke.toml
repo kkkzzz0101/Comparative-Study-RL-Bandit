@@ -1,0 +1,20 @@
+[experiment]
+name = "smoke"
+horizon = 200
+seeds = [0, 1]
+output_dir = "results/smoke"
+save_trajectories = true
+
+[[algorithms]]
+name = "random"
+
+[[environments]]
+name = "stationary"
+[environments.params]
+n_arms = 5
+
+[[environments]]
+name = "abrupt_change"
+[environments.params]
+n_arms = 5
+n_changes = 2

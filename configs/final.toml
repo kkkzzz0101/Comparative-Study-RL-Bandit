@@ -1,0 +1,62 @@
+[experiment]
+name = "final"
+horizon = 10000
+seed_start = 1000
+n_seeds = 50
+output_dir = "results/final"
+save_trajectories = true
+
+# Parameter values are placeholders until tuning is completed on pilot seeds.
+[[algorithms]]
+name = "random"
+
+[[algorithms]]
+name = "ucb1"
+enabled = false
+
+[[algorithms]]
+name = "thompson_sampling"
+enabled = false
+
+[[algorithms]]
+name = "discounted_ucb"
+enabled = false
+[algorithms.params]
+discount = 0.99
+
+[[algorithms]]
+name = "sliding_window_ucb"
+enabled = false
+[algorithms.params]
+window_size = 250
+
+[[algorithms]]
+name = "exp3"
+enabled = false
+[algorithms.params]
+gamma = 0.07
+
+[[environments]]
+name = "stationary"
+[environments.params]
+n_arms = 10
+
+[[environments]]
+name = "gradual_drift"
+[environments.params]
+n_arms = 10
+cycles = 1.5
+amplitude = 0.3
+
+[[environments]]
+name = "abrupt_change"
+[environments.params]
+n_arms = 10
+n_changes = 3
+
+[[environments]]
+name = "oblivious_adversarial"
+[environments.params]
+n_arms = 10
+block_size = 50
+corruption = 0.1

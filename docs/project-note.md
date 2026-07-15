@@ -1,8 +1,8 @@
 # FYP Project Note
 
-> **Working title:** Comparative Study of RL and Bandit Algorithms in Non-Stochastic Environments  
-> **Team:** two members (replace `Member A` / `Member B` in the task board)  
-> **Status:** project scoping and benchmark design
+> **Working title:** Comparative Study of RL and Bandit Algorithms in Non-Stochastic Environments
+> **Team:** two members (replace `Member A` / `Member B` in the task board)
+> **Status:** Sprint 1 — fixed-policy evaluation benchmark (2026-07-15 to 2026-07-28)
 
 ## 1. Background and motivation
 
@@ -20,6 +20,8 @@ Evaluate the adaptability, robustness, and performance degradation of selected R
 2. Which shift type produces the largest degradation: gradual drift, abrupt change point, recurring regime switch, or adversarial/non-stochastic reward sequence?
 3. Which robust or non-stationary variants reduce cumulative regret and recovery time relative to stationary baselines?
 4. How do empirical findings translate into algorithm-selection guidance for real-world settings?
+
+The longer-term system hypothesis is an environment-aware controller that identifies the current operating regime and routes decisions to a suitable policy. The first sprint deliberately evaluates fixed policies before building that controller, so its routing rules are evidence-based rather than assumed.
 
 ## 4. Proposed scope
 
@@ -97,3 +99,5 @@ Each experiment should declare its random seed, environment parameters, algorith
 | Date | Decision/change | Owner |
 | --- | --- | --- |
 | 2026-07-15 | Initial project note created from FYP description | Team |
+| 2026-07-15 | Defined Sprint 1 as fixed-policy evaluation across four environment classes | Team |
+| 2026-07-15 | Deferred online environment classification and policy routing to the next phase | Team |
