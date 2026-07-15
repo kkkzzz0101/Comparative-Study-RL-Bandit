@@ -101,3 +101,5 @@ Each experiment should declare its random seed, environment parameters, algorith
 | 2026-07-15 | Initial project note created from FYP description | Team |
 | 2026-07-15 | Defined Sprint 1 as fixed-policy evaluation across four environment classes | Team |
 | 2026-07-15 | Deferred online environment classification and policy routing to the next phase | Team |
+| 2026-07-15 | Completed primary-source review of synthetic, semi-synthetic, adversarial, and logged-data protocols | Team |
+| 2026-07-15 | Reclassified the initial adversarial generator as a rapid-switching/high-variation stress test pending a canonical adversarial suite | Team |

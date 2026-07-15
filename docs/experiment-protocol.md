@@ -12,7 +12,7 @@ Test rather than assume the following mapping:
 | H1 | Stationary stochastic | UCB1 / Thompson Sampling |
 | H2 | Gradual drift | Discounted UCB |
 | H3 | Abrupt changes | Sliding-Window UCB |
-| H4 | Oblivious adversarial/high variation | EXP3 |
+| H4 | Rapid-switching/high-variation stress test | EXP3 (hypothesis only) |
 
 The result of this sprint will define the candidate policies and environment signals used by the later adaptive router.
 
@@ -43,9 +43,11 @@ Arm means evolve smoothly and the identity of the optimal arm changes over time.
 
 The horizon contains piecewise-stationary segments. Arm means are reassigned at hidden change points, with a different optimal arm after every change.
 
-### E3 — Oblivious adversarial/high variation
+### E3 — Rapid-switching/high variation
 
-The complete reward sequence is generated before the policy runs and does not react to the selected actions. This preserves fair common-table comparisons. The initial generator uses irregular winning arms plus controlled corruption; its scientific interpretation must be reviewed before final experiments.
+The complete reward sequence is generated before the policy runs and does not react to the selected actions. This preserves fair common-table comparisons. The current internal generator name is `oblivious_adversarial`, but its mechanism—blockwise Bernoulli leaders plus controlled corruption—is scientifically a high-variation stochastic stress test, not evidence against a strategic adversary.
+
+Standard EXP3 external regret is measured against the best fixed arm. If the report makes a canonical adversarial claim, add explicit precommitted deterministic payoff tables; if it makes a tracking claim, report dynamic or bounded-switch comparator regret separately. See the [simulation-data literature review](literature-review-simulation-data.md).
 
 ## 4. Default experiment scale
 

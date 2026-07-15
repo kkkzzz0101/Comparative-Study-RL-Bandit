@@ -38,3 +38,4 @@ The current milestone is **Sprint 1 — Algorithm Evaluation**, ending 2026-07-2
 | T00 | Create local/GitHub project workspace | Team | Jul 15 | Repository and initial project note |
 | T03 | Draft benchmark protocol | Shared scaffold | Jul 15 | `docs/experiment-protocol.md` |
 | T04 | Create runnable package, configs, result schema, and smoke tests | Shared scaffold | Jul 15 | `src/`, `configs/`, `tests/` |
+| T05 | Review simulation-data protocols in primary bandit papers | Shared | Jul 15 | `docs/literature-review-simulation-data.md` |

@@ -53,7 +53,7 @@ The smoke configuration currently enables only the implemented random policy. En
 | Discounted UCB, Sliding-Window UCB, EXP3 | Member A | TODO |
 | Environment validation and plotting | Both | TODO |
 
-See [`docs/sprint-plan.md`](docs/sprint-plan.md) for acceptance criteria and [`docs/experiment-protocol.md`](docs/experiment-protocol.md) for the evaluation contract.
+See [`docs/sprint-plan.md`](docs/sprint-plan.md) for acceptance criteria, [`docs/experiment-protocol.md`](docs/experiment-protocol.md) for the evaluation contract, and [`docs/literature-review-simulation-data.md`](docs/literature-review-simulation-data.md) for the primary-source review of simulation-data protocols.
 
 ## Fair-comparison rules
 
