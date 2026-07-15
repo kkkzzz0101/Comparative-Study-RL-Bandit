@@ -1,7 +1,7 @@
 # Experiment Protocol — Fixed-Policy Evaluation
 
 > **Protocol status:** draft v0.1 for supervisor/team review
-> **Sprint window:** 2026-07-15 to 2026-07-28
+> **Owners:** Zuting (methodology) and Xuantong (experiments/reproducibility)
 
 ## 1. Objective
 

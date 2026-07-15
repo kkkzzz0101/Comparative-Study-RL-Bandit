@@ -1,74 +1,77 @@
-# Sprint 1 — Algorithm Evaluation Benchmark
+# Project Work Plan
 
-> **Dates:** 2026-07-15 to 2026-07-28
-> **Goal:** complete a reproducible comparison of six policies across four environment classes.
+## Goal
 
-Replace `Member A` and `Member B` with names during the kickoff meeting. Member A is the teammate already familiar with bandits; Member B is the teammate learning the topic.
+Use a reproducible fixed-policy benchmark to identify where bandit algorithms fail, then test whether an environment-aware adaptive framework can outperform robust fixed policies on unseen changing environments.
 
-## Division of work
+## Division of responsibility
 
-### Member A — methodology and non-stationary policies
+### Zuting — methodology and adaptive-system owner
 
-- T10: own the experiment protocol and fairness review.
-- T13: implement Discounted UCB.
-- T14: implement Sliding-Window UCB.
-- T15: implement EXP3.
-- T18: lead parameter tuning and statistical interpretation.
+- Own the research question, comparison protocol, regret definitions, and fairness rules.
+- Verify the implementations of Discounted UCB, Sliding-Window UCB, EXP3, and change-detection/routing logic.
+- Design the failure-boundary experiments and the adaptive framework.
+- Lead interpretation of results, limitations, and the technical argument in the report.
 
-### Member B — foundations and baseline policies
+### Xuantong — experiment, data, and reproducibility owner
 
-- T11: implement and test UCB1.
-- T12: implement and test Bernoulli Thompson Sampling.
-- T16: validate stationary and abrupt environments with diagnostic plots.
-- T19: prepare result tables, figures, and reproducibility notes.
+- Build bandit foundations by verifying UCB1 and Thompson Sampling against hand-worked examples.
+- Validate environment generators, seeds, change metadata, and reward distributions.
+- Own batch execution, result tables, plots, confidence intervals, and reproducibility checks.
+- Lead the practical CTR-shaped data case study and document its assumptions.
 
-### Shared
+### Shared responsibility
 
-- Review each other's pull requests.
-- Run integration and smoke tests.
-- Write the literature rationale for every algorithm/environment pairing.
-- Review conclusions together; neither member should interpret only their own implementation.
+- Review each other's code and reject results that neither member can explain.
+- Agree on tuning ranges before final evaluation.
+- Inspect surprising results together and distinguish implementation bugs from real failure modes.
+- Write and rehearse the final conclusions together.
 
-## Acceptance criteria by task
+## Work sequence
 
-| ID | Task | Acceptance criteria |
-| --- | --- | --- |
-| T10 | Lock protocol | Supervisor/team agrees on algorithms, environment definitions, metrics, and tuning split |
-| T11 | UCB1 | Pulls every arm initially; correct confidence bonus; deterministic test passes |
-| T12 | Thompson Sampling | Beta posterior initialized and updated correctly; seeded sampling reproducible |
-| T13 | Discounted UCB | Counts and rewards decay every step; discount validation and toy test pass |
-| T14 | Sliding-Window UCB | Only the most recent `window_size` observations contribute; expiry test passes |
-| T15 | EXP3 | Importance-weighted update is correct; probability vector is valid and numerically stable |
-| T16 | Environment QA | Seed reproduction, reward bounds, change locations, and optimal-arm transitions verified |
-| T17 | Runner integration | All enabled policies complete smoke and pilot configs with expected row counts |
-| T18 | Tuning/final runs | Tuning grid recorded; final parameters locked before evaluation seeds run |
-| T19 | Analysis outputs | Reward/regret curves, summary table, CI, recovery/tracking analysis generated from saved CSV |
-| T20 | Sprint report | 3–5 page note states findings, failure modes, limitations, and router implications |
+### 1. Benchmark v1
 
-## Fourteen-day schedule
+Implement and validate UCB1, Bernoulli Thompson Sampling, Discounted UCB, Sliding-Window UCB, and EXP3 against stationary, abrupt, gradual, and high-variation environments.
 
-| Day | Date | Expected outcome |
-| ---: | --- | --- |
-| 1 | Jul 15 | Scaffold, interfaces, protocol draft, and assignments ready |
-| 2 | Jul 16 | Formula review; UCB1/TS and non-stationary policy branches opened |
-| 3 | Jul 17 | UCB1 and D-UCB first implementations |
-| 4 | Jul 18 | Thompson Sampling, SW-UCB, and EXP3 first implementations |
-| 5 | Jul 19 | Unit tests and environment QA |
-| 6 | Jul 20 | All policies integrated into smoke config |
-| 7 | Jul 21 | Ten-seed pilot and supervisor/team checkpoint |
-| 8 | Jul 22 | Fixes from pilot; parameter grid finalized |
-| 9 | Jul 23 | Tuning runs |
-| 10 | Jul 24 | Parameters locked; final run begins |
-| 11 | Jul 25 | Final run completed and checked |
-| 12 | Jul 26 | Figures, confidence intervals, and failure cases |
-| 13 | Jul 27 | Evaluation note and reproducibility audit |
-| 14 | Jul 28 | Mutual review, merge, sprint conclusion, router requirements |
+Completion evidence:
+
+- deterministic/unit tests for algorithm update rules;
+- environment diagnostic plots and metadata checks;
+- one command that reproduces a small comparison run;
+- dynamic and external regret kept separate.
+
+### 2. Failure-boundary study
+
+Sweep meaningful difficulty variables rather than merely fitting one dataset:
+
+- reward gap;
+- change magnitude;
+- change frequency or hazard rate;
+- drift speed or variation budget;
+- number of arms and observation noise.
+
+Produce a map showing where each policy succeeds, degrades, or becomes statistically indistinguishable from another policy.
+
+### 3. Adaptive framework
+
+Use observable signals such as short/long-window reward differences, volatility, or a declared change detector to select or reset policies. Compare it against:
+
+- the best fixed policy selected in hindsight;
+- one robust fixed-policy baseline;
+- a type-aware oracle router;
+- a no-switch controller;
+- the same controller with switching cost.
+
+Development and final evaluation must use different generator instances and parameter ranges so the router cannot memorize visible curve shapes.
+
+### 4. Practical validation
+
+Construct a clearly labelled semi-synthetic recommendation case from time-binned CTR paths, or use chronological logged replay if suitable randomized logs are available. Treat this as external validation, not as the source of ground-truth environment labels.
 
 ## Definition of done
 
 - `pytest` passes from a clean environment.
-- One documented command reproduces the core results.
-- Final results use unseen seeds and locked parameters.
-- Raw run metadata includes code commit, parameters, and all three seeds.
-- The team can explain why every policy behaves as observed.
-- The next adaptive-framework sprint has evidence-based routing hypotheses.
+- One documented command reproduces every reported figure and table.
+- Tuning and final evaluation use disjoint seeds.
+- Every run records the code version, generator parameters, algorithm parameters, and seeds.
+- Both members can explain the algorithms, environment assumptions, comparisons, failure modes, and limitations.

@@ -1,8 +1,8 @@
 # FYP Project Note
 
 > **Working title:** Comparative Study of RL and Bandit Algorithms in Non-Stochastic Environments
-> **Team:** two members (replace `Member A` / `Member B` in the task board)
-> **Status:** Sprint 1 — fixed-policy evaluation benchmark (2026-07-15 to 2026-07-28)
+> **Team:** Zuting and Xuantong
+> **Status:** fixed-policy benchmark and adaptive-framework research design
 
 ## 1. Background and motivation
 

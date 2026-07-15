@@ -49,9 +49,10 @@ The smoke configuration currently enables only the implemented random policy. En
 | Module | Initial owner | Status |
 | --- | --- | --- |
 | Random baseline and experiment framework | Shared scaffold | Ready |
-| UCB1 and Thompson Sampling | Member B | TODO |
-| Discounted UCB, Sliding-Window UCB, EXP3 | Member A | TODO |
-| Environment validation and plotting | Both | TODO |
+| UCB1 and Thompson Sampling verification | Xuantong | TODO |
+| Non-stationary policies and adaptive framework | Zuting | TODO |
+| Environment validation, experiment runs, and plotting | Xuantong | TODO |
+| Interpretation, report, and review | Zuting & Xuantong | TODO |
 
 See [`docs/sprint-plan.md`](docs/sprint-plan.md) for acceptance criteria, [`docs/experiment-protocol.md`](docs/experiment-protocol.md) for the evaluation contract, and [`docs/literature-review-simulation-data.md`](docs/literature-review-simulation-data.md) for the primary-source review of simulation-data protocols.
 

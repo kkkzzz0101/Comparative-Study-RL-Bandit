@@ -36,8 +36,8 @@ Record short notes after every supervisor or team meeting. Keep decisions here e
 
 | ID | Action | Owner | Due date |
 | --- | --- | --- | --- |
-| T01 | Confirm scope and assessment expectations | Member A | TBD |
-| T02 | Start literature scan | Member B | TBD |
+| T01 | Confirm scope and assessment expectations | Zuting | TBD |
+| T02 | Start literature scan | Xuantong | TBD |
 
 ## 2026-07-15 — Sprint 1 kickoff draft
 
@@ -55,6 +55,6 @@ Record short notes after every supervisor or team meeting. Keep decisions here e
 
 | ID | Action | Owner | Due date |
 | --- | --- | --- | --- |
-| T10 | Review protocol with team/supervisor | Member A | 2026-07-16 |
-| T11 | Implement UCB1 from the shared interface | Member B | 2026-07-17 |
-| T13 | Implement Discounted UCB from the shared interface | Member A | 2026-07-17 |
+| T10 | Review protocol with team/supervisor | Zuting | 2026-07-16 |
+| T11 | Implement UCB1 from the shared interface | Xuantong | 2026-07-17 |
+| T13 | Implement Discounted UCB from the shared interface | Zuting | 2026-07-17 |
