@@ -46,5 +46,5 @@ def calculate_trajectory_metrics(
         instantaneous_pseudo_regret=instantaneous_pseudo_regret,
         cumulative_pseudo_regret=cumulative_pseudo_regret,
         cumulative_external_regret=cumulative_external_regret,
-        optimal_action=actions == optimal_arms,
+        optimal_action=selected_means == optimal_means,
     )

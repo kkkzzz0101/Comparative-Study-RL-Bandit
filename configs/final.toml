@@ -40,6 +40,22 @@ gamma = 0.07
 name = "stationary"
 [environments.params]
 n_arms = 10
+gap = 0.10
+
+[[environments]]
+name = "canonical_abrupt"
+[environments.params]
+n_arms = 3
+
+[[environments]]
+name = "random_abrupt"
+[environments.params]
+n_arms = 10
+n_changes = 5
+min_segment_length = 1000
+arm_change_probability = 0.5
+min_jump = 0.05
+max_jump = 0.30
 
 [[environments]]
 name = "gradual_drift"
@@ -49,13 +65,29 @@ cycles = 1.5
 amplitude = 0.3
 
 [[environments]]
-name = "abrupt_change"
+name = "bounded_random_walk"
 [environments.params]
 n_arms = 10
-n_changes = 3
+step_std = 0.03
 
 [[environments]]
-name = "oblivious_adversarial"
+name = "hazard_switching"
+id = "hazard_global"
+[environments.params]
+n_arms = 10
+hazard_rate = 0.001
+mode = "global"
+
+[[environments]]
+name = "hazard_switching"
+id = "hazard_per_arm"
+[environments.params]
+n_arms = 10
+hazard_rate = 0.001
+mode = "per_arm"
+
+[[environments]]
+name = "rapid_switching"
 [environments.params]
 n_arms = 10
 block_size = 50

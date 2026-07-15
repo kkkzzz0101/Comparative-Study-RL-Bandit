@@ -13,8 +13,14 @@ from bandit_benchmark.algorithms import (
 from bandit_benchmark.algorithms.base import BanditAlgorithm
 from bandit_benchmark.environments import (
     AbruptChangeBernoulli,
+    BoundedRandomWalkBernoulli,
+    CanonicalAbruptBernoulli,
+    CSVMeanPathEnvironment,
     GradualDriftBernoulli,
+    HazardSwitchingBernoulli,
     ObliviousAdversarial,
+    RandomAbruptBernoulli,
+    RapidSwitchingBernoulli,
     StationaryBernoulli,
 )
 from bandit_benchmark.environments.base import BanditEnvironment
@@ -30,7 +36,14 @@ ALGORITHMS = {
 
 ENVIRONMENTS = {
     "stationary": StationaryBernoulli,
+    "canonical_abrupt": CanonicalAbruptBernoulli,
+    "random_abrupt": RandomAbruptBernoulli,
     "gradual_drift": GradualDriftBernoulli,
+    "bounded_random_walk": BoundedRandomWalkBernoulli,
+    "hazard_switching": HazardSwitchingBernoulli,
+    "rapid_switching": RapidSwitchingBernoulli,
+    "csv_mean_path": CSVMeanPathEnvironment,
+    # Backward-compatible names retained for existing configs.
     "abrupt_change": AbruptChangeBernoulli,
     "oblivious_adversarial": ObliviousAdversarial,
 }

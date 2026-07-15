@@ -9,13 +9,15 @@ Use a reproducible fixed-policy benchmark to identify where bandit algorithms fa
 ### Zuting — methodology and adaptive-system owner
 
 - Own the research question, comparison protocol, regret definitions, and fairness rules.
-- Verify the implementations of Discounted UCB, Sliding-Window UCB, EXP3, and change-detection/routing logic.
+- Own and validate the environment suite and review every fixed-policy implementation.
+- Specify the exact Discounted UCB, Sliding-Window UCB, EXP3, and change-detection/routing formulations before final experiments.
 - Design the failure-boundary experiments and the adaptive framework.
 - Lead interpretation of results, limitations, and the technical argument in the report.
 
 ### Xuantong — experiment, data, and reproducibility owner
 
-- Build bandit foundations by verifying UCB1 and Thompson Sampling against hand-worked examples.
+- Implement and test UCB1, Thompson Sampling, Discounted UCB, Sliding-Window UCB, and EXP3 through the shared policy interface.
+- Build bandit foundations by checking update rules against hand-worked examples and explaining each algorithm's assumptions.
 - Validate environment generators, seeds, change metadata, and reward distributions.
 - Own batch execution, result tables, plots, confidence intervals, and reproducibility checks.
 - Lead the practical CTR-shaped data case study and document its assumptions.

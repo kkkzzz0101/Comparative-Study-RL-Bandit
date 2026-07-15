@@ -242,12 +242,13 @@ The second approach should use only sufficiently exposed items, report uncertain
 
 | Current generator | Literature alignment | Main limitation | Recommended action |
 | --- | --- | --- | --- |
-| `StationaryBernoulli` | Standard stochastic baseline | Fixed large spread `0.15–0.85` makes identification relatively easy | Add controlled minimum-gap settings: easy, medium, hard |
-| `GradualDriftBernoulli` | Matches cosine/sinusoidal precedents | Only periodic smooth drift; router may learn periodic artifacts | Keep it and add truncated-normal/random-walk drift |
-| `AbruptChangeBernoulli` | Matches piecewise Bernoulli literature | Equal spacing; all means redraw; large gap; every change forces a new best | Add canonical one-arm flip, random hazard times, and global/per-arm modes |
-| `ObliviousAdversarial` | Pre-generated reward table is compatible with an oblivious sequence | Mechanism is a randomized rapid-switching process; external regret comparator may be weak | Rename as stress test; add explicit adversarial payoff tables and keep metrics separate |
+| `StationaryBernoulli` | Standard stochastic baseline | A single gap does not cover identification difficulty | Implemented configurable `gap`, `low`, and `high`; sweep multiple gaps |
+| `CanonicalAbruptBernoulli` / `RandomAbruptBernoulli` | Matches scripted and randomized piecewise Bernoulli precedents | One generator cannot cover all breakpoint sparsity and jump sizes | Implemented separate canonical regression and irregular sparse-change cases |
+| `GradualDriftBernoulli` / `BoundedRandomWalkBernoulli` | Matches periodic and non-periodic drift precedents | Boundary rule and drift scale affect conclusions | Implemented sinusoidal and reflected Gaussian paths with explicit metadata |
+| `HazardSwitchingBernoulli` | Matches global/per-arm redraw protocols | Realized change count is random | Implemented both modes and records every realized event |
+| `RapidSwitchingBernoulli` | Matches a high-variation block-leader stress construction | It is not a strategic adversary and should not use the wrong comparator | Implemented as nonstationary with corrected corrupted expectations; old name is deprecated |
 
-The common potential-outcome table and three-seed separation in the current runner are strong design choices and consistent with fair Monte Carlo comparison.
+The common potential-outcome table and three-seed separation in the current runner are strong design choices and consistent with fair Monte Carlo comparison. The runner now also stores scenario metadata and supports distinct IDs for parameterized instances of the same generator.
 
 ## 6. Recommended benchmark suite for this FYP
 

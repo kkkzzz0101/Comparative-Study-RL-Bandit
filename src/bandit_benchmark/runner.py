@@ -17,7 +17,9 @@ RUN_FIELDS = [
     "run_id",
     "experiment",
     "algorithm",
+    "algorithm_name",
     "environment",
+    "environment_name",
     "environment_kind",
     "horizon",
     "n_arms",
@@ -32,6 +34,7 @@ RUN_FIELDS = [
     "git_commit",
     "algorithm_params",
     "environment_params",
+    "scenario_metadata",
 ]
 
 TRAJECTORY_FIELDS = [
@@ -94,6 +97,16 @@ def _git_commit() -> str:
         return "unknown"
 
 
+def _json_default(value: Any) -> Any:
+    if isinstance(value, np.generic):
+        return value.item()
+    if isinstance(value, np.ndarray):
+        return value.tolist()
+    if isinstance(value, Path):
+        return str(value)
+    raise TypeError(f"cannot serialize {type(value).__name__} to JSON")
+
+
 def run_experiment(config_path: Path, output_override: Path | None = None) -> Path:
     config = load_config(config_path)
     experiment = config["experiment"]
@@ -107,12 +120,20 @@ def run_experiment(config_path: Path, output_override: Path | None = None) -> Pa
     if horizon < 2 or not algorithms or not environments:
         raise ValueError("horizon, enabled algorithms, and enabled environments are required")
 
+    algorithm_ids = [str(entry.get("id", entry["name"])) for entry in algorithms]
+    if len(algorithm_ids) != len(set(algorithm_ids)):
+        raise ValueError("enabled algorithm entries must have unique 'id' values")
+    environment_ids = [str(entry.get("id", entry["name"])) for entry in environments]
+    if len(environment_ids) != len(set(environment_ids)):
+        raise ValueError("enabled environment entries must have unique 'id' values")
+
     run_rows: list[dict[str, Any]] = []
     trajectory_rows: list[dict[str, Any]] = []
     commit = _git_commit()
 
     for environment_entry in environments:
         environment_name = environment_entry["name"]
+        environment_id = str(environment_entry.get("id", environment_name))
         environment_params = dict(environment_entry.get("params", {}))
         environment = build_environment(environment_name, environment_params)
 
@@ -123,12 +144,13 @@ def run_experiment(config_path: Path, output_override: Path | None = None) -> Pa
 
             for algorithm_entry in algorithms:
                 algorithm_name = algorithm_entry["name"]
+                algorithm_id = str(algorithm_entry.get("id", algorithm_name))
                 algorithm_params = dict(algorithm_entry.get("params", {}))
                 policy_seed = base_seed + 20_000
                 algorithm = build_algorithm(
                     algorithm_name, scenario.n_arms, policy_seed, algorithm_params
                 )
-                run_id = f"{name}-{environment_name}-{algorithm_name}-{base_seed}"
+                run_id = f"{name}-{environment_id}-{algorithm_id}-{base_seed}"
                 actions = np.empty(horizon, dtype=int)
                 observed_rewards = np.empty(horizon, dtype=float)
 
@@ -158,8 +180,10 @@ def run_experiment(config_path: Path, output_override: Path | None = None) -> Pa
                     {
                         "run_id": run_id,
                         "experiment": name,
-                        "algorithm": algorithm_name,
-                        "environment": environment_name,
+                        "algorithm": algorithm_id,
+                        "algorithm_name": algorithm_name,
+                        "environment": environment_id,
+                        "environment_name": environment_name,
                         "environment_kind": scenario.kind,
                         "horizon": horizon,
                         "n_arms": scenario.n_arms,
@@ -172,8 +196,15 @@ def run_experiment(config_path: Path, output_override: Path | None = None) -> Pa
                         "optimal_action_rate": float(np.mean(metrics.optimal_action)),
                         "runtime_seconds": runtime_seconds,
                         "git_commit": commit,
-                        "algorithm_params": json.dumps(algorithm_params, sort_keys=True),
-                        "environment_params": json.dumps(environment_params, sort_keys=True),
+                        "algorithm_params": json.dumps(
+                            algorithm_params, sort_keys=True, default=_json_default
+                        ),
+                        "environment_params": json.dumps(
+                            environment_params, sort_keys=True, default=_json_default
+                        ),
+                        "scenario_metadata": json.dumps(
+                            scenario.metadata, sort_keys=True, default=_json_default
+                        ),
                     }
                 )
 

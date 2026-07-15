@@ -35,19 +35,27 @@ All core stochastic experiments use rewards in `[0, 1]` and default to Bernoulli
 
 Each arm keeps one fixed mean throughout the horizon. This is the control condition.
 
-### E1 — Gradual drift
+### E1 — Canonical and random abrupt changes
 
-Arm means evolve smoothly and the identity of the optimal arm changes over time. `cycles` and `amplitude` control change speed and severity.
+The canonical three-arm case is an exact literature regression test. The random case uses irregular breakpoints, sparse arm changes, bounded jump sizes, and does not force the best arm to change at every breakpoint.
 
-### E2 — Abrupt changes
+### E2 — Smooth and random-walk drift
 
-The horizon contains piecewise-stationary segments. Arm means are reassigned at hidden change points, with a different optimal arm after every change.
+Sinusoidal paths provide controlled periodic drift; reflected Gaussian random walks provide non-periodic gradual change.
 
-### E3 — Rapid-switching/high variation
+### E3 — Hazard switching
 
-The complete reward sequence is generated before the policy runs and does not react to the selected actions. This preserves fair common-table comparisons. The current internal generator name is `oblivious_adversarial`, but its mechanism—blockwise Bernoulli leaders plus controlled corruption—is scientifically a high-variation stochastic stress test, not evidence against a strategic adversary.
+Means are redrawn at random events, either globally or independently per arm. This removes the artificial assumption of equally spaced changes.
 
-Standard EXP3 external regret is measured against the best fixed arm. If the report makes a canonical adversarial claim, add explicit precommitted deterministic payoff tables; if it makes a tracking claim, report dynamic or bounded-switch comparator regret separately. See the [simulation-data literature review](literature-review-simulation-data.md).
+### E4 — Rapid-switching/high variation
+
+Blockwise Bernoulli leaders and independent outcome corruption create a high-variation stochastic stress test. The official registry name is `rapid_switching`; `oblivious_adversarial` remains only as a deprecated compatibility name.
+
+The current rapid-switching case uses dynamic pseudo-regret. Standard EXP3 external regret against the best fixed arm applies only if a future canonical `kind="adversarial"` suite is added. If the report makes a tracking claim, report dynamic or bounded-switch comparator regret separately. See the [simulation-data literature review](literature-review-simulation-data.md).
+
+### E5 — CTR-shaped semi-synthetic data
+
+The `csv_mean_path` adapter reads a complete time-indexed CTR/mean path and generates Bernoulli potential outcomes. Logged replay remains a separate future interface because real logs lack full counterfactual reward tables.
 
 ## 4. Default experiment scale
 
@@ -106,6 +114,6 @@ Select parameters using pilot seeds only. Lock the chosen values in `configs/fin
 - [ ] Sliding-Window UCB drops expired observations.
 - [ ] EXP3 probabilities are finite, positive, and sum to one.
 - [ ] All environments reproduce exactly from fixed seeds.
-- [ ] Drift and abrupt scenarios actually change the optimal arm.
+- [ ] Environment metadata matches realized breakpoints, changed arms, variation, and optimal-arm switches.
 - [ ] Pilot plots are plausible and free from off-by-one errors.
-- [ ] Supervisor/team has approved the adversarial environment interpretation.
+- [ ] Supervisor/team has approved whether a separate canonical adversarial suite is required.

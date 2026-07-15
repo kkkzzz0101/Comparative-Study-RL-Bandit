@@ -4,7 +4,7 @@ from bandit_benchmark.algorithms.base import BanditAlgorithm
 
 
 class EXP3(BanditAlgorithm):
-    """EXP3 implementation task for Member A."""
+    """EXP3 implementation placeholder assigned to Xuantong."""
 
     name = "exp3"
 
@@ -15,7 +15,7 @@ class EXP3(BanditAlgorithm):
         self.gamma = gamma
 
     def select_action(self) -> int:
-        raise NotImplementedError("T15: implement EXP3.select_action")
+        raise NotImplementedError("implement EXP3.select_action")
 
     def update(self, action: int, reward: float) -> None:
-        raise NotImplementedError("T15: implement EXP3.update")
+        raise NotImplementedError("implement EXP3.update")

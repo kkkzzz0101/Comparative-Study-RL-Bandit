@@ -1,12 +1,12 @@
 # Comparative Study of RL and Bandit Algorithms in Non-Stochastic Environments
 
-Reproducible Final Year Project benchmark for evaluating bandit policies under stationary, drifting, abrupt-change, and adversarial reward sequences.
+Reproducible Final Year Project benchmark for evaluating bandit policies under stationary, drifting, abrupt-change, and high-variation reward sequences.
 
 ## Current research question
 
 Which bandit policy is most reliable under each type of environmental change, and can those results support a later environment-aware algorithm-selection framework?
 
-The current 14-day sprint evaluates fixed policies. Environment detection and dynamic policy routing are the next phase, not part of this first benchmark milestone.
+The current milestone completes and validates the environment suite before fixed-policy and adaptive-routing experiments.
 
 ## Repository map
 
@@ -15,8 +15,21 @@ configs/                    Experiment definitions
 docs/                       Project note, protocol, sprint plan, meeting log
 results/                    Generated CSV outputs (runs are Git-ignored)
 src/bandit_benchmark/
-  algorithms/               Shared interface and policy implementations
-  environments/             Reproducible potential-outcome generators
+  algorithms/
+    base.py                  Frozen select_action/update interface
+    random_policy.py         Implemented reference policy
+    ucb.py, thompson.py      Xuantong's stationary-policy placeholders
+    nonstationary_ucb.py     D-UCB and SW-UCB placeholders
+    exp3.py                  EXP3 placeholder
+  environments/
+    base.py                  Scenario and generator interface
+    stationary.py            Stationary gap environment
+    piecewise.py             Canonical/random abrupt environments
+    drift.py                 Sinusoidal and random-walk drift
+    switching.py             Global/per-arm hazard switching
+    stress.py                Rapid-switching stress test
+    real_data.py             CSV mean-path and logged-data contracts
+  registry.py                Names used by TOML configurations
   metrics.py                Pseudo-regret and external-regret calculations
   runner.py                 Config-driven evaluation runner
 tests/                      Deterministic unit and smoke tests
@@ -49,10 +62,13 @@ The smoke configuration currently enables only the implemented random policy. En
 | Module | Initial owner | Status |
 | --- | --- | --- |
 | Random baseline and experiment framework | Shared scaffold | Ready |
-| UCB1 and Thompson Sampling verification | Xuantong | TODO |
-| Non-stationary policies and adaptive framework | Zuting | TODO |
-| Environment validation, experiment runs, and plotting | Xuantong | TODO |
+| Controlled environment suite and interface | Zuting | Ready |
+| UCB1, Thompson Sampling, D-UCB, SW-UCB, and EXP3 | Xuantong | TODO |
+| Algorithm specification/review and adaptive framework | Zuting | TODO |
+| Experiment runs, validation, and plotting | Xuantong | TODO |
 | Interpretation, report, and review | Zuting & Xuantong | TODO |
+
+Environment usage: [`docs/environments.md`](docs/environments.md) (English) / [`docs/environments.zh-CN.md`](docs/environments.zh-CN.md) (中文).
 
 See [`docs/sprint-plan.md`](docs/sprint-plan.md) for acceptance criteria, [`docs/experiment-protocol.md`](docs/experiment-protocol.md) for the evaluation contract, and [`docs/literature-review-simulation-data.md`](docs/literature-review-simulation-data.md) for the primary-source review of simulation-data protocols.
 

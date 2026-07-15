@@ -65,3 +65,67 @@ def sample_bernoulli_rewards(expected_rewards: np.ndarray, seed: int) -> np.ndar
 def validate_horizon(horizon: int) -> None:
     if horizon < 2:
         raise ValueError("horizon must be at least 2")
+
+
+def reflect_unit_interval(values: np.ndarray) -> np.ndarray:
+    """Reflect arbitrary real values into ``[0, 1]`` without clipping."""
+
+    folded = np.mod(values, 2.0)
+    return np.where(folded <= 1.0, folded, 2.0 - folded)
+
+
+def mean_path_metadata(expected_rewards: np.ndarray) -> dict[str, Any]:
+    """Return JSON-serializable diagnostics shared by every mean-path environment."""
+
+    ordered = np.sort(expected_rewards, axis=1)
+    gaps = ordered[:, -1] - ordered[:, -2]
+    optimal_arms = np.argmax(expected_rewards, axis=1)
+    optimal_switch_points = (np.flatnonzero(optimal_arms[1:] != optimal_arms[:-1]) + 1).tolist()
+    step_changes = np.abs(np.diff(expected_rewards, axis=0))
+    return {
+        "total_variation": float(np.sum(np.max(step_changes, axis=1))),
+        "max_step_change": float(np.max(step_changes, initial=0.0)),
+        "minimum_gap": float(np.min(gaps)),
+        "optimal_switch_points": [int(point) for point in optimal_switch_points],
+        "n_optimal_switches": len(optimal_switch_points),
+    }
+
+
+def make_bernoulli_scenario(
+    *,
+    name: str,
+    kind: EnvironmentKind,
+    expected_rewards: np.ndarray,
+    scenario_seed: int,
+    reward_seed: int,
+    metadata: dict[str, Any] | None = None,
+) -> Scenario:
+    """Build a validated Bernoulli scenario with standard diagnostics."""
+
+    expected_rewards = np.asarray(expected_rewards, dtype=float)
+    if expected_rewards.ndim != 2 or expected_rewards.shape[0] < 2:
+        raise ValueError("expected_rewards must have shape (horizon >= 2, n_arms)")
+    if expected_rewards.shape[1] < 2:
+        raise ValueError("expected_rewards must contain at least two arms")
+    if not np.all(np.isfinite(expected_rewards)):
+        raise ValueError("expected rewards must be finite")
+    if not np.all((0 <= expected_rewards) & (expected_rewards <= 1)):
+        raise ValueError("expected rewards must lie in [0, 1]")
+
+    combined_metadata: dict[str, Any] = {
+        "scenario_seed": int(scenario_seed),
+        "reward_seed": int(reward_seed),
+        "reward_model": "bernoulli",
+        "change_points": [],
+        "changed_arms": [],
+    }
+    if metadata:
+        combined_metadata.update(metadata)
+    combined_metadata.update(mean_path_metadata(expected_rewards))
+    return Scenario(
+        name=name,
+        kind=kind,
+        expected_rewards=expected_rewards,
+        reward_table=sample_bernoulli_rewards(expected_rewards, reward_seed),
+        metadata=combined_metadata,
+    )

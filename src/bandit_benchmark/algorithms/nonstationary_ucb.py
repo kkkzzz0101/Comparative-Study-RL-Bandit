@@ -4,7 +4,7 @@ from bandit_benchmark.algorithms.base import BanditAlgorithm
 
 
 class DiscountedUCB(BanditAlgorithm):
-    """Discounted-UCB implementation task for Member A."""
+    """Discounted-UCB implementation placeholder assigned to Xuantong."""
 
     name = "discounted_ucb"
 
@@ -15,14 +15,14 @@ class DiscountedUCB(BanditAlgorithm):
         self.discount = discount
 
     def select_action(self) -> int:
-        raise NotImplementedError("T13: implement DiscountedUCB.select_action")
+        raise NotImplementedError("implement DiscountedUCB.select_action")
 
     def update(self, action: int, reward: float) -> None:
-        raise NotImplementedError("T13: implement DiscountedUCB.update")
+        raise NotImplementedError("implement DiscountedUCB.update")
 
 
 class SlidingWindowUCB(BanditAlgorithm):
-    """Sliding-Window UCB implementation task for Member A."""
+    """Sliding-Window UCB implementation placeholder assigned to Xuantong."""
 
     name = "sliding_window_ucb"
 
@@ -33,7 +33,7 @@ class SlidingWindowUCB(BanditAlgorithm):
         self.window_size = window_size
 
     def select_action(self) -> int:
-        raise NotImplementedError("T14: implement SlidingWindowUCB.select_action")
+        raise NotImplementedError("implement SlidingWindowUCB.select_action")
 
     def update(self, action: int, reward: float) -> None:
-        raise NotImplementedError("T14: implement SlidingWindowUCB.update")
+        raise NotImplementedError("implement SlidingWindowUCB.update")

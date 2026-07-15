@@ -4,7 +4,7 @@ from bandit_benchmark.algorithms.base import BanditAlgorithm
 
 
 class UCB1(BanditAlgorithm):
-    """UCB1 implementation task for Member B.
+    """UCB1 implementation placeholder assigned to Xuantong.
 
     Acceptance criteria are listed in ``docs/sprint-plan.md``. Keep this class
     interface unchanged so it can be registered by the experiment runner.
@@ -13,7 +13,7 @@ class UCB1(BanditAlgorithm):
     name = "ucb1"
 
     def select_action(self) -> int:
-        raise NotImplementedError("T11: implement UCB1.select_action")
+        raise NotImplementedError("implement UCB1.select_action")
 
     def update(self, action: int, reward: float) -> None:
-        raise NotImplementedError("T11: implement UCB1.update")
+        raise NotImplementedError("implement UCB1.update")
