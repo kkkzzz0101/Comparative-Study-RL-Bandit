@@ -1,7 +1,7 @@
 import sys
 from pathlib import Path
 
-# 将项目的 src 目录添加到 Python 的搜索路径中
+# Add the project's src directory to Python path
 src_path = Path(__file__).parent.parent / "src"
 if str(src_path) not in sys.path:
     sys.path.insert(0, str(src_path))
@@ -11,61 +11,61 @@ from bandit_benchmark.algorithms.thompson import ThompsonSampling
 
 
 def test_thompson_initial_prior():
-    """测试：初始时 Beta(1,1) 是均匀分布"""
+    """Test: Initial Beta(1,1) prior is uniform."""
     ts = ThompsonSampling(n_arms=3, seed=42)
     
-    # 初始 α = 1, β = 1
+    # Initial alpha = 1, beta = 1
     assert np.all(ts.alphas == 1)
     assert np.all(ts.betas == 1)
-    # 均值 = 1/(1+1) = 0.5
+    # Mean = 1/(1+1) = 0.5
     assert np.all(ts.means == 0.5)
 
 
 def test_thompson_update():
-    """测试：更新是否正确"""
+    """Test: Updates are correct."""
     ts = ThompsonSampling(n_arms=2, seed=42)
     
-    # 臂0获得奖励1（成功）
+    # Arm 0 gets reward 1 (success)
     ts.update(0, 1.0)
-    # 臂1获得奖励0（失败）
+    # Arm 1 gets reward 0 (failure)
     ts.update(1, 0.0)
     
-    # 臂0: α=2, β=1, 均值=2/3
+    # Arm 0: alpha=2, beta=1, mean=2/3
     assert ts.alphas[0] == 2
     assert ts.betas[0] == 1
     assert ts.means[0] == 2/3
     
-    # 臂1: α=1, β=2, 均值=1/3
+    # Arm 1: alpha=1, beta=2, mean=1/3
     assert ts.alphas[1] == 1
     assert ts.betas[1] == 2
     assert ts.means[1] == 1/3
 
 
 def test_thompson_exploration():
-    """测试：Thompson Sampling 能自动探索"""
+    """Test: Thompson Sampling explores automatically."""
     ts = ThompsonSampling(n_arms=3, seed=42)
     
-    # 所有臂初始均值都是0.5，选择是随机的
+    # All arms start with mean 0.5, selection is random
     actions = [ts.select_action() for _ in range(30)]
     
-    # 应该选择过所有臂（至少各一次）
+    # Should have selected all arms at least once
     assert len(set(actions)) == 3
 
 
 def test_thompson_prefers_best_arm():
-    """测试：Thompson Sampling 能识别最优臂"""
+    """Test: Thompson Sampling identifies the best arm."""
     ts = ThompsonSampling(n_arms=2, seed=42)
     
-    # 让臂0一直成功，臂1一直失败
+    # Arm 0 always succeeds, Arm 1 always fails
     for _ in range(10):
         ts.update(0, 1.0)
         ts.update(1, 0.0)
     
-    # 臂0的均值应该接近1，臂1的均值接近0
+    # Arm 0 mean should be near 1, Arm 1 mean near 0
     assert ts.means[0] > 0.8
     assert ts.means[1] < 0.2
     
-    # 后续选择应该偏向臂0
+    # Subsequent selections should favor Arm 0
     actions = [ts.select_action() for _ in range(20)]
     count_0 = sum(1 for a in actions if a == 0)
     count_1 = sum(1 for a in actions if a == 1)
